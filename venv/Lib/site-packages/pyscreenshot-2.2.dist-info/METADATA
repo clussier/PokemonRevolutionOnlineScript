@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: pyscreenshot
+Version: 2.2
+Summary: python screenshot
+Home-page: https://github.com/ponty/pyscreenshot
+Author: ponty
+License: BSD
+Keywords: screenshot
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*
+Requires-Dist: EasyProcess
+Requires-Dist: entrypoint2
+Requires-Dist: mss ; python_version > "3.4"
+Requires-Dist: jeepney ; python_version > "3.4" and platform_system == "Linux"
+
+The pyscreenshot module can be used to copy the contents of the screen to a Pillow image memory using various back-ends. Replacement for the ImageGrab Module.
+
+Documentation: https://github.com/ponty/pyscreenshot/tree/2.2
+
