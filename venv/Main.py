@@ -30,7 +30,7 @@ current = set()
 log = []
 controller = Controller()
 def farm():
-    FarmFunctions.farmAndCatch(farmAll=True, catch=catchPokemon, run=runPokemon) yes sir
+    FarmFunctions.farmAndCatch(farmAll=True, catch=catchPokemon, run=runPokemon)
     #FarmFunctions.farmAll()
 
 def on_press(key):

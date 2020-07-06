@@ -40,7 +40,7 @@ def Bat():
     img1.save("BattleScreenTest.png")
 
     #Croping the battle options section from a battle image
-    abs_path = os.path.join(script_dir, "Images/Battle Screen.png")
+    abs_path = os.path.join(script_dir.split("venv")[0], "Images/Battle Screen.png")
     img2 = Image.open(abs_path).convert('LA')
     img2 = img2.crop((left,top,right,bottom))
     img2.save("BattleScreen.png")
@@ -97,15 +97,16 @@ def CheckIfOnLoginScreen():
     im = im.convert('LA')
     im.save("HomescreenTest.png")
 
-    abs_path = os.path.join(script_dir, "Images/Homescreen.png")
+    abs_path = os.path.join(script_dir.split("venv")[0], "Images/Homescreen.png")
+    print(abs_path)
     im2 = Image.open(abs_path)
     im2 = im2.crop((left,top,right,bottom))
     im2 = im2.convert('LA')
     im2.save("LoginScreen.png")
 
     #Converting to numpy
-    rel_path_base = "venv/LoginScreen.png"
-    rel_path_test = "venv/HomescreenTest.png"
+    rel_path_base = "LoginScreen.png"
+    rel_path_test = "HomescreenTest.png"
     abs_path_base = os.path.join(script_dir, rel_path_base)
     abs_path_test = os.path.join(script_dir, rel_path_test)
     base = imread(abs_path_base)
