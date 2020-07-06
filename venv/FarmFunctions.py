@@ -20,7 +20,7 @@ runPokemon = []
 
 keyboard = Controller()
 shell = win32com.client.Dispatch("WScript.Shell")
-
+########################  HELPER FUNCTIONS  ##############################
 def attackFirstMove():
     """
     Presses 1, waits for move selection menu to appear, then press 1 again to select the first move
@@ -37,8 +37,8 @@ def attackFirstMove():
 def walk_LR(buffer = 0):
     """
     Simulates walking once left and then once right whlie checking if the player is
-    in  abttle. The function starts by pressing A and then waits 'buffer' amount of
-    seconds before pressing D. In between pressing and releasing a 'A' or 'D', the program
+    in a bttle. The function starts by pressing 'a' and then waits 'buffer' amount of
+    seconds before pressing 'd'. In between pressing and releasing a 'a' or 'd', the program
     also checks if the player is in battle. The time it takes to check depends on how fast
     your computer is.
 
@@ -69,27 +69,72 @@ def walk_LR(buffer = 0):
 
     #No battle is detected
     return False
-def farmAll():
+def walk_UD(buffer = 0):
+    """
+    Simulates walking once up and then once down whlie checking if the player is
+    in  abttle. The function starts by pressing 'w' and then waits 'buffer' amount of
+    seconds before pressing 's'. In between pressing and releasing a 'w' or 's', the program
+    also checks if the player is in battle. The time it takes to check depends on how fast
+    your computer is.
+
+    :param buffer: the number of seconds for which the player will walk in each direction
+    return: Returns True if in battle, returns False if not in battle
+    """
+    # Start walking left
+    keyboard.press('w')
+    # Detect if there is a battle on Screen
+    dif = BattleDetect.Bat()
+    'Adjust for # of steps'
+    time.sleep(buffer)
+    if dif < .1:
+        print("In battle")
+        return True
+    keyboard.release('w')
+
+    # Start walking right
+    keyboard.press('s')
+    # Detect Battle on Screen
+    dif = BattleDetect.Bat()
+    'Adjust for # of steps'
+    time.sleep(buffer)
+    if dif < .1:
+        print("In battle")
+        return True
+    keyboard.release('s')
+
+    #No battle is detected
+    return False
+
+##########################################################################################
+
+def farmAll(direction=0):
     """
     Walks back and forth (direction can be adjusted) and checks for battle between strides.
     Does not run from any pokemon and continuously uses the first attack ability
     of your pokemon when in battle (ability does not need to 1 shot).
+    :param direction: 0 - Left and Right (Default)
+                      1 - Up and Down
     """
     farmAll = True
     while True:
         # Simulate A & D Key presses1a
-        InBattle = False
-        while InBattle == False:
+        inBattle = False
+        while inBattle == False:
             if BattleDetect.CheckIfOnLoginScreen():
                 return 0
-            # Walk to the left then right and check if in battle
-            InBattle = walk_LR(buffer=0.2)
+            # Walks to get into encounter while checking if in battle
+            buffer = 0 #How long the player should walk in each directoin
+            if direction == 0:
+                inBattle = walk_LR(buffer=buffer)
+            else:
+                inBattle = walk_UD(buffer=buffer)
 
-        #Detect What pokemon is on screen
+        # Detect What pokemon is on screen
         BattleDetect.Cropn()
         name = BattleDetect.Read()
         print(name)
 
+        # Attack
         if farmAll:
             attackFirstMove()
     return 0

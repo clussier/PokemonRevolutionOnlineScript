@@ -31,7 +31,7 @@ log = []
 controller = Controller()
 def farm():
     #FarmFunctions.farmAndCatch(farmAll=True, catch=catchPokemon, run=runPokemon)
-    FarmFunctions.farmAll()
+    FarmFunctions.farmAll(direction = 1)
 
 def on_press(key):
     #Check for farmALL combo
