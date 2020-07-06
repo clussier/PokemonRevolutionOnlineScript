@@ -22,7 +22,10 @@ keyboard = Controller()
 shell = win32com.client.Dispatch("WScript.Shell")
 
 def attackFirstMove():
+    """
+    Presses 1, waits for move selection menu to appear, then press 1 again to select the first move
 
+    """
     print("Attack")
     # Select Attack
     keyboard.press('1')
@@ -31,13 +34,72 @@ def attackFirstMove():
     time.sleep(.3)
     keyboard.press('1')
     keyboard.release('1')
+def walk_LR(buffer = 0):
+    """
+    Simulates walking once left and then once right whlie checking if the player is
+    in  abttle. The function starts by pressing A and then waits 'buffer' amount of
+    seconds before pressing D. In between pressing and releasing a 'A' or 'D', the program
+    also checks if the player is in battle. The time it takes to check depends on how fast
+    your computer is.
 
+    :param buffer: the number of seconds for which the player will walk in each direction
+    return: Returns True if in battle, returns false if not in battle
+    """
+    # Start walking left
+    keyboard.press('a')
+    # Detect if there is a battle on Screen
+    dif = BattleDetect.Bat()
+    'Adjust for # of steps'
+    time.sleep(buffer)
+    if dif < .1:
+        print("In battle")
+        return True
+    keyboard.release('a')
+
+    # Start walking right
+    keyboard.press('d')
+    # Detect Battle on Screen
+    dif = BattleDetect.Bat()
+    'Adjust for # of steps'
+    time.sleep(buffer)
+    if dif < .1:
+        print("In battle")
+        return True
+    keyboard.release('d')
+
+    #No battle is detected
+    return False
 def farmAll():
     """
     Walks back and forth (direction can be adjusted) and checks for battle between strides.
     Does not run from any pokemon and continuously uses the first attack ability
     of your pokemon when in battle (ability does not need to 1 shot).
     """
+    farmAll = True
+    while True:
+        # Simulate A & D Key presses1a
+        InBattle = False
+        while InBattle == False:
+            if BattleDetect.CheckIfOnLoginScreen():
+                return 0
+            # Walk to the left then right and check if in battle
+            InBattle = walk_LR(buffer=0.2)
+
+        #Detect What pokemon is on screen
+        BattleDetect.Cropn()
+        name = BattleDetect.Read()
+        print(name)
+
+        if farmAll:
+            attackFirstMove()
+    return 0
+"""
+def farmAll():
+    "
+    Walks back and forth (direction can be adjusted) and checks for battle between strides.
+    Does not run from any pokemon and continuously uses the first attack ability
+    of your pokemon when in battle (ability does not need to 1 shot).
+    "
     farmAll = True
     while True:
         # Simulate A & D Key presses1a
@@ -68,7 +130,7 @@ def farmAll():
                 notInBattle = False
                 break
             keyboard.release('d')
-            ####################
+
         #Detect What pokemon is on screen
         BattleDetect.Cropn()
         name = BattleDetect.Read()
@@ -77,7 +139,7 @@ def farmAll():
         if farmAll:
             attackFirstMove()
     return 0
-
+"""
 def farmAndCatch(stop = False, farmAll = False, catch = [], farm = [], run = []):
     """
     This function is designed to allow the user to custimize which pokemon they want the
