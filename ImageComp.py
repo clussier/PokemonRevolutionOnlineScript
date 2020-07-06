@@ -1,4 +1,4 @@
-#RyanWalk:6/24/20:ImageComp.py
+#Charles Lussier: Version 2.0 (7/6/2020)
 import numpy
 import cv2
 def mse(imageA, imageB):

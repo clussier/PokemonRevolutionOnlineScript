@@ -1,15 +1,18 @@
-#RyanWalk:6/24/20:BattleDetect.py
+#Charles Lussier: Version 2.0 (7/6/2020)
 import pyscreenshot
 import ImageComp
 from matplotlib.image import imread
 from PIL import Image
 import pytesseract
 import cv2
-#d
+import os
+
 pytesseract.pytesseract.tesseract_cmd = 'C:\Program Files (x86)\Tesseract-OCR/tesseract.exe'
 sideMargin = 0.2037037037
 movesetRegionLeftStart = 0.629629629
 verticalMargin= 0.1866666666
+
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 
 def Bat():
     """
@@ -34,16 +37,17 @@ def Bat():
     #Croping the battle options section from the screenshot
     img1 = im.crop((left,top,right,bottom))
     img1 = img1.convert('LA')
-    img1.save("battletest.png")
+    img1.save("BattleScreenTest.png")
 
     #Croping the battle options section from a battle image
-    img2 = Image.open(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\Images\BurnedTowerTop.png").convert('LA')
+    abs_path = os.path.join(script_dir, "Images/Battle Screen.png")
+    img2 = Image.open(abs_path).convert('LA')
     img2 = img2.crop((left,top,right,bottom))
-    img2.save("ABattle1.png")
+    img2.save("BattleScreen.png")
 
     #Converting to numpy
-    base = imread(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\ABattle1.png")
-    new = imread(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\battletest.png")
+    base = imread(r"BattleScreen.png")
+    new = imread(r"BattleScreenTest.png")
 
     #Compare new screenshot w battle screenshot using mean squared error
     dif = ImageComp.mse(base, new)
@@ -80,6 +84,7 @@ def CheckIfOnLoginScreen():
     The area that the function crops to get the battle options section will differ depending on screen
     resolution. You can adjust the spot with the left, top, right, and bottom, variables
     """
+
     #grab the wild pokemons name
     im = pyscreenshot.grab()
     #Calculate spot of battle pane
@@ -92,17 +97,22 @@ def CheckIfOnLoginScreen():
     im = im.convert('LA')
     im.save("HomescreenTest.png")
 
-    im2 = Image.open(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\Images\Homescreen.png")
+    abs_path = os.path.join(script_dir, "Images/Homescreen.png")
+    im2 = Image.open(abs_path)
     im2 = im2.crop((left,top,right,bottom))
     im2 = im2.convert('LA')
-    im2.save("ALogin1.png")
+    im2.save("LoginScreen.png")
 
     #Converting to numpy
-    base = imread(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\ALogin1.png")
-    new = imread(r"C:\Users\cluss\PyCharmProjects\PokemonRevolution\HomescreenTest.png")
+    rel_path_base = "venv/LoginScreen.png"
+    rel_path_test = "venv/HomescreenTest.png"
+    abs_path_base = os.path.join(script_dir, rel_path_base)
+    abs_path_test = os.path.join(script_dir, rel_path_test)
+    base = imread(abs_path_base)
+    test = imread(abs_path_test)
 
     #Compare new screenshot w battle screenshot using mean squared error
-    dif = ImageComp.mse(base, new)
+    dif = ImageComp.mse(base, test)
     print("Login Screen: " + str(dif))
     if dif < .1:
         return True
@@ -131,7 +141,7 @@ def CropHealth():
     im = im.convert('RGB')
     im.save("healthbar.png")
 def Read():
-    name = cv2.imread(r"C:\Users\cluss\PycharmProjects\PokemonRevolution\name.png")
+    name = cv2.imread(r"name.png")
     text = pytesseract.image_to_string(name)
     text = text.lower()
     text = text.strip()

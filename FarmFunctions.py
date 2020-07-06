@@ -1,4 +1,4 @@
-#RyanWalk:6/24/20:PokeFarmMain
+#Charles Lussier: Version 2.0 (7/6/2020)
 import win32com.client
 import time
 import os
